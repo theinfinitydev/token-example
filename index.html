@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate-key="page_title">LLM Yaşam Döngüsü Maliyet Hesaplayıcısı</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1 data-translate-key="main_title">LLM Yaşam Döngüsü: Maliyet ve Ölçek Hesaplayıcısı</h1>
+            <p class="intro" data-translate-key="intro_text">
+                Bu araç, bir Büyük Dil Modeli (LLM) projesinin yaşam döngüsündeki üç kritik aşamanın - <strong>Sıfırdan Eğitim</strong>, <strong>İnce Ayar</strong> ve <strong>Çıkarım</strong> - yaklaşık hesaplama ve token maliyetlerini modellemenize yardımcı olur. Parametrelerle oynayarak maliyetlerin nasıl değiştiğini keşfedin.
+            </p>
+        </div>
+        <div class="language-selector">
+            <label for="lang-switcher" data-translate-key="language_label">Dil:</label>
+            <select id="lang-switcher">
+                <option value="tr">Türkçe</option>
+                <option value="en">English</option>
+                <option value="es">Español</option>
+            </select>
+        </div>
+    </header>
+
+    <main>
+        <section id="pretraining">
+            <h2 data-translate-key="pretrain_title">1. Sıfırdan Model Eğitimi (Pre-training)</h2>
+            <p class="description" data-translate-key="pretrain_desc">
+                Bu aşama, bir LLM'in doğuşudur. Modeli, internetin devasa bir kopyası gibi düşünebileceğiniz milyarlarca token'lık veriyle beslersiniz. Amaç, ona dilin yapısını, anlamsal ilişkileri ve dünya hakkındaki genel bilgileri öğretmektir. Tıpkı bir çocuğa konuşmayı ve dünyayı anlamayı öğretmek gibi, bu da en maliyetli ve uzun süreçtir.
+            </p>
+            <div class="calculator">
+                <div class="inputs">
+                    <label for="pretrain-params-input" data-translate-key="model_params_label">Model Parametre Sayısı:</label>
+                    <div class="param-input-group">
+                        <input type="number" id="pretrain-params-input" value="7000000000" step="1000000000">
+                        <div class="param-presets">
+                            <button class="preset-btn" data-value="1000000000">1B</button>
+                            <button class="preset-btn" data-value="7000000000">7B</button>
+                            <button class="preset-btn" data-value="13000000000">13B</button>
+                            <button class="preset-btn" data-value="70000000000">70B</button>
+                        </div>
+                    </div>
+
+                    <label for="pretrain-tokens" data-translate-key="training_data_label">Eğitim Veri Seti Büyüklüğü (Token):</label>
+                    <input type="number" id="pretrain-tokens" value="200000000000" step="100000000000">
+                </div>
+                <div class="outputs">
+                    <h3 data-translate-key="estimated_compute_cost">Tahmini Hesaplama Maliyeti:</h3>
+                    <p>
+                        <strong data-translate-key="total_flops_label">Toplam Veri İşleme Yükü (FLOPs):</strong>
+                        <span id="pretrain-flops" class="highlight"></span>
+                        <small data-translate-key="flops_formula"><em>Formül: FLOPs ≈ 6 x Parametre Sayısı x Token Sayısı</em></small>
+                    </p>
+                    <div class="explanation-detail">
+                        <strong data-translate-key="why_flops_title">Neden Önemli? (FLOPs Nedir?)</strong>
+                        <p data-translate-key="why_flops_desc">FLOPs (Saniyedeki Kayan Nokta İşlemleri), bir bilgisayarın ne kadar "düşündüğünü" ölçer. Bir binadaki toplam tuğla sayısı gibidir. Bu sayı, modeli eğitmek için gereken saf hesaplama gücünü gösterir ve doğrudan enerji, zaman ve donanım maliyetine dönüşür.</p>
+                    </div>
+                    <p>
+                        <strong data-translate-key="comparison_label">Karşılaştırma:</strong>
+                        <span id="pretrain-comparison"></span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="finetuning">
+            <h2 data-translate-key="finetune_title">2. Mevcut Modeli İnce Ayarlama (Fine-Tuning)</h2>
+            <p class="description" data-translate-key="finetune_desc">
+                Sıfırdan eğitilmiş genel amaçlı bir modeli, özel bir görev için uzmanlaştırma işlemidir. Genel bilgiye sahip bir mezunu, hukuk veya tıp gibi belirli bir alanda eğitmek gibidir. Kendi özel veri setinizi kullanarak modelin davranışını, stilini veya bilgi tabanını özelleştirirsiniz.
+            </p>
+            <div class="calculator">
+                <div class="inputs">
+                    <label for="finetune-params-input" data-translate-key="model_params_label">Temel Model Parametre Sayısı:</label>
+                     <div class="param-input-group">
+                        <input type="number" id="finetune-params-input" value="7000000000" step="1000000000">
+                        <div class="param-presets">
+                            <button class="preset-btn" data-value="1000000000">1B</button>
+                            <button class="preset-btn" data-value="7000000000">7B</button>
+                            <button class="preset-btn" data-value="13000000000">13B</button>
+                            <button class="preset-btn" data-value="70000000000">70B</button>
+                        </div>
+                    </div>
+
+                    <label for="finetune-tokens" data-translate-key="finetune_data_label">İnce Ayar Veri Seti Büyüklüğü (Token):</label>
+                    <input type="number" id="finetune-tokens" value="10000000" step="1000000">
+
+                    <label for="finetune-epochs" data-translate-key="epochs_label">Epoch Sayısı:</label>
+                    <input type="number" id="finetune-epochs" value="3" min="1">
+
+                    <label data-translate-key="method_label">Yöntem:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="full-finetune" name="finetune-method" value="full" checked>
+                        <label for="full-finetune" data-translate-key="full_finetune_label">Tam İnce Ayar</label>
+                        <input type="radio" id="lora-finetune" name="finetune-method" value="lora">
+                        <label for="lora-finetune" data-translate-key="peft_lora_label">PEFT (LoRA)</label>
+                    </div>
+                </div>
+                <div class="outputs">
+                    <h3 data-translate-key="estimated_cost">Tahmini Maliyet:</h3>
+                    <div id="finetune-full-output">
+                        <p>
+                            <strong data-translate-key="total_tokens_processed_label">İşlenecek Toplam Token:</strong>
+                            <span id="finetune-total-tokens" class="highlight"></span>
+                        </p>
+                         <div class="explanation-detail">
+                            <strong data-translate-key="why_full_finetune_title">Neden Önemli? (Tam İnce Ayar)</strong>
+                            <p id="full-finetune-desc" data-translate-key="why_full_finetune_desc">Tüm modelin milyarlarca parametresini güncellersiniz. Bu, modelin temel davranışını derinden değiştirebilir ancak çok fazla hesaplama gücü ve bellek (VRAM) gerektirir. Modelin veri setini <span id="epoch-display">3</span> kez görmesi gerekir.</p>
+                        </div>
+                    </div>
+                    <div id="finetune-lora-output" class="hidden">
+                        <p class="highlight-info" data-translate-key="lora_desc">
+                            LoRA, modelin orijinal ağırlıklarını dondurur ve sadece küçük, eğitilebilir "adaptör" katmanları ekler. Bu, beynin ana yapısını değiştirmek yerine, üzerine yapışkan notlar ekleyerek yeni bilgiler öğrenmek gibidir. Bu nedenle, tam ince ayara göre <strong>~%99 daha az hesaplama gücü</strong> gerektirir ve çok daha hızlıdır.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="inference">
+            <h2 data-translate-key="inference_title">3. API Çağrısı ve Çıkarım Maliyeti</h2>
+            <p class="description" data-translate-key="inference_desc">
+                Bu, eğitilmiş modeli fiilen kullanma aşamasıdır. Modele bir soru sorduğunuz (girdi/prompt) ve ondan bir cevap aldığınız (çıktı/completion) her an bir çıkarım işlemidir. Maliyet, konuşmanızın toplam uzunluğuna (hem sizin söyledikleriniz hem de modelin söyledikleri) bağlıdır ve genellikle token başına ücretlendirilir.
+            </p>
+            <div class="calculator">
+                <div class="inputs">
+                    <label for="inference-prompt" data-translate-key="prompt_label">Girdi Metni (Prompt):</label>
+                    <textarea id="inference-prompt" rows="5" data-translate-key-placeholder="inference_placeholder">Yapay zeka, günümüz teknolojisinin en heyecan verici alanlarından biridir.</textarea>
+
+                    <label for="inference-output-length" data-translate-key="output_length_label">Beklenen Çıktı Uzunluğu (Token):</label>
+                    <input type="number" id="inference-output-length" value="150" min="0">
+                </div>
+                <div class="outputs">
+                    <h3 data-translate-key="token_cost_label">Token Maliyeti:</h3>
+                    <p><strong data-translate-key="input_tokens_label">Girdi Token Sayısı:</strong> <span id="inference-input-tokens" class="highlight">0</span></p>
+                    <p><strong data-translate-key="output_tokens_label">Çıktı Token Sayısı:</strong> <span id="inference-output-tokens" class="highlight">0</span></p>
+                    <hr>
+                    <p><strong data-translate-key="total_cost_label">Toplam Maliyet (Token):</strong> <span id="inference-total-tokens" class="highlight-total">0</span></p>
+                    <div class="explanation-detail">
+                        <strong data-translate-key="why_token_cost_title">Neden Önemli?</strong>
+                        <p data-translate-key="why_token_cost_desc">Çıkarım maliyetleri, özellikle yüksek hacimli uygulamalarda hızla birikebilir. Girdi (prompt) ne kadar uzun ve detaylıysa veya istenen cevap ne kadar uzunsa, maliyet o kadar artar. Verimli prompt yazma (prompt engineering) bu maliyeti düşürmede kritiktir.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p data-translate-key="footer_note"><strong>*Not:</strong> Token sayıları, yaklaşık değerlerdir. Metinlerdeki token sayısı, `metin_uzunluğu / 4` formülüyle tahmin edilmiştir. Gerçek tokenizasyon modele göre değişebilir.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
