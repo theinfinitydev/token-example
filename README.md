@@ -6,7 +6,7 @@ An interactive web application designed to demystify the compute and token costs
 
 This tool is built with pure, framework-free **Vanilla JavaScript, HTML, and CSS** to be lightweight, fast, and easy to understand.
 
-### 🌐 **[Live Demo Here](https://your-username.github.io/your-repo-name/)**
+### 🌐 **[Live Demo Here](https://theinfinitydev.github.io/token-example/)**
 
 ---
 
@@ -65,11 +65,11 @@ All you need is a modern web browser.
 
 1.  Clone the repository:
     ```sh
-    git clone https://github.com/your-username/your-repo-name.git
+    git clone https://github.com/theinfinitydev/token-example.git
     ```
 2.  Navigate to the project directory:
     ```sh
-    cd your-repo-name
+    cd token-example
     ```
 3.  Open the `index.html` file directly in your browser.
     -   On macOS: `open index.html`
